@@ -1,0 +1,102 @@
+﻿@model Product
+
+<div class="container-fluid">
+    <div>
+        <h1>Update a Product</h1>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" type="text" class="form-control" id="">
+            <span asp-validation-for="Name" style="color:red"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <input asp-for="Description" type="text" class="form-control" id="">
+            <span asp-validation-for="Description" style="color:red"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SalePrice" class="form-label">SalePrice</label>
+            <input asp-for="SalePrice" type="text" class="form-control" id="">
+            <span asp-validation-for="SalePrice" style="color:red"></span>
+        </div>
+
+        <div class="row col-12" style="padding:0px;">
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <label asp-for="CategoryId">Categories</label>
+                <select asp-for="CategoryId" class="form-select" aria-label="Default select example">
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" style="color:red"></span>
+            </div>
+
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <label asp-for="ColorIds">Colors</label>
+                <select asp-for="ColorIds" class="form-select" aria-label="Default select example">
+                    @foreach (var color in ViewBag.Colors)
+                    {
+                        <option value="@color.Id">@color.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ColorIds" style="color:red"></span>
+            </div>
+
+        </div>
+
+        <div class="row col-12" style="padding:0px; margin:30px 0px;">
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <label asp-for="ProductMainImage">MainImage</label>
+                <input class="form-control  ml-3" asp-for="ProductMainImage" />
+                <div class="d-flex align-items-center flex-column">
+                    <img style="width:100px" src="~/uploads/product-images/@Model.ProductImages?.Where(x => x.isPoster == true)?.FirstOrDefault()?.ImgUrl" />
+                    <input type="hidden" asp-for="ProductImageIds"  />
+                </div>
+                <span asp-validation-for="ProductMainImage" style="color:red"></span>
+            </div>
+
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <label asp-for="ProductHoverImage">HoverImage</label>
+                <input class="form-control  ml-3" asp-for="ProductHoverImage" />
+                <div class="d-flex align-items-center flex-column">
+                    <img style="width:100px" src="~/uploads/product-images/@Model.ProductImages?.Where(x => x.isPoster == false)?.FirstOrDefault()?.ImgUrl" />
+                    <input type="hidden" asp-for="ProductImageIds"  />
+                </div>
+                <span asp-validation-for="ProductHoverImage" style="color:red"></span>
+            </div>
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <label asp-for="ImagesFiles">FileImages</label>
+                <input class="form-control  ml-3" asp-for="ImagesFiles" />
+                <div class="d-flex align-items-center  mt-4 " style="flex-wrap:wrap;">
+                    @foreach (var item in Model.ProductImages.Where(x => x.isPoster == null))
+                    {
+                        <div style="position:relative;display:flex; flex-direction:column; align-items:center">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger remove-btn" style="font-size:15px;top:10px !important;cursor:pointer">x</span>
+                            <img style="width:100px;margin-left:25px;margin-top:10px" src="~/uploads/product-images/@item?.ImgUrl" />
+                            <input value="@item.Id" type="hidden" asp-for="ProductImageIds"  />
+                        </div>
+                    }
+                </div>
+                <span asp-validation-for="ImagesFiles" style="color:red"></span>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="Index" asp-controller="Product" class="btn btn-success">Back To Home</a>
+    </form>
+</div>
+
+
+<script>
+    let removeBtns = document.querySelectorAll(".remove-btn")
+
+    removeBtns.forEach(btn =>
+        btn.addEventListener("click", () => {
+            btn.parentElement.remove();
+        })
+    )
+
+</script>

@@ -1,0 +1,47 @@
+﻿@model List<Product>
+@{
+    int count = 0;
+}
+@section cssFiles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.css" />
+}
+<div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-between">
+        <h1>Products</h1>
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Add</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">SalePrice</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                count++;
+                <tr>
+                    <th scope="row">@count</th>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.SalePrice</td>
+
+                    <td>
+                        <a class="btn btn-danger delete-btn" asp-action="Delete" asp-controller="Product" asp-route-id="@product.Id">Delete</a>
+                        <a class="btn btn-warning" asp-action="Update" asp-controller="Product" asp-route-id="@product.Id">Update</a>
+                    </td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>
+@section jsFiles{
+    <script src="~/assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.js"></script>
+}

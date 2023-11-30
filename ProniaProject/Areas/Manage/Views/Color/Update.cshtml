@@ -1,0 +1,16 @@
+﻿@model Color
+
+<div class="container-fluid">
+    <div>
+        <h1>Create a Color</h1>
+    </div>
+    <form method="post">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" type="text" class="form-control" id="">
+            <span asp-validation-for="Name"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">create</button>
+        <a asp-action="Index" asp-controller="Color" class="btn btn-success">Back To Home</a>
+    </form>
+</div>
